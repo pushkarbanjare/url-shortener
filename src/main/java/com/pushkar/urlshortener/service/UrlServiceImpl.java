@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.pushkar.urlshortener.dto.UrlRequest;
 import com.pushkar.urlshortener.dto.UrlResponse;
 import com.pushkar.urlshortener.entity.Url;
+import com.pushkar.urlshortener.exception.ShortUrlNotFoundException;
 import com.pushkar.urlshortener.repository.UrlRepository;
 import com.pushkar.urlshortener.util.Base62Encoder;
 
@@ -34,7 +35,7 @@ public class UrlServiceImpl implements UrlService {
 
     @Override 
     public String getOriginalUrl(String shortCode) {
-        Url url = urlRepository.findByShortCode(shortCode).orElseThrow(() -> new RuntimeException("Short URL not found:" + shortCode));
+        Url url = urlRepository.findByShortCode(shortCode).orElseThrow(() -> new ShortUrlNotFoundException("Short URL not found:" + shortCode));
         return url.getOriginalUrl();
     }
 
